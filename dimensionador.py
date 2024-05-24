@@ -2,9 +2,10 @@
 import cv2
 import numpy as np
 import utils
+import time 
 
-webcam = True
-path='1.jpg'
+webcam = False
+path='2.jpg'
 cap = cv2.VideoCapture(0)
 cap.set(10,160) #Set property 10 (brightness)
 cap.set(3,1920) #Set property 3 (frame width)
@@ -14,7 +15,18 @@ scaleFactor = 3
 referenceWidth = 210*scaleFactor
 referenceHeigth = 297*scaleFactor
 
+newHeigth = 0
+newWidth= 0
+logHeight = 0
+logWidth = 0
+
+
 while True:
+    
+    if newWidth !=0 or newHeigth != 0:
+        print("enter delay")
+        time.sleep(5)
+    
     if webcam : 
         success, img =cap.read()
     else:
@@ -47,10 +59,17 @@ while True:
                 cv2.putText(img2, '{}cm'.format(newWidth), (x + 30, y - 10), cv2.FONT_HERSHEY_COMPLEX_SMALL, 1.5, (255,0,255),2)
                 cv2.putText(img2, '{}cm'.format(newHeigth), (x - 70, y + h // 2), cv2.FONT_HERSHEY_COMPLEX_SMALL, 1.5, (255,0,255),2)
                 
+             
+                
+                
         cv2.imshow('found',img2)
         
     img = cv2.resize(img,(0,0),None,0.5,0.5)
-    cv2.imshow('original', img)
-    cv2.waitKey(1)
+    
+    #cv2.imshow('original', img)
+    k = cv2.waitKey(1) & 0xFF
+    #END APP
+    if k == ord('q'):
+        break
 
 
